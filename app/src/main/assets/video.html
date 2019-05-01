@@ -1,0 +1,97 @@
+<div style="padding:10%;">
+    <table style="margin-top:25%;">
+        <thead>
+        <tr>
+            <th colspan="4">
+                <center><font color="#F20064" size="6"><b>Video Rewards</b></font>
+
+                    <b>
+
+                    </b></center>
+            </th>
+        </tr>
+        </thead>
+    </table>
+    <table style="margin-top:3%;">
+        <thead>
+        <tr>
+            <th colspan="4">
+                <center><font color="#F20064"><b>Earn 💎25 / Video Watch</b></font></center>
+            </th>
+        </tr>
+        </thead>
+    </table>
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <center>
+                    <p id="extra_message">Video Ad Available</p>
+                    <a onclick="AppmediationSDK.rewardedVideoRequest()"><input id="WatchVideoButton"
+                                                                               type="button"
+                                                                               value="Watch Now"></a>
+                </center>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <center>
+                    <h2>Live Earning <font color="#F20064"><b>[mycred_my_balance] </b></font></h2>
+                </center>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <center></center>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    function checkIfVideoIsAvailable() {
+        console.log("<AM> isRewardedVideoAvailable = " + AppmediationSDK.isRewardedVideoAvailable());
+    }
+
+    function appmediationJsInterfaceInit() {
+        console.log("<AM> You can use appmediation SDK now");
+        AppmediationSDK.isRewardedVideoAvailable();
+    }
+
+    function onRewardedVideoClicked() {
+        console.log("<AM> User click rewarded video ad");
+    }
+
+    function onRewardedVideoClosed() {
+        console.log("<AM> User closed rewarded video ad");
+        document.getElementById("WatchVideoButton").style.display = 'none';
+        setMessageText("Looking for video");
+    }
+
+    function onRewardedVideoCompleted(currency, amount) {
+        console.log("<AM> User finished watching rewarded video ad till the end. You can reward him: " + amount + " " + currency);
+        location.href = " http://159.89.18.148/pointbank";
+    }
+
+    function onRewardedVideoFailed(error) {
+        console.log("<AM> Something went wrong, rewarded video is not available: " + error);
+        document.getElementById("WatchVideoButton").style.display = 'none';
+        setMessageText(error);
+    }
+
+    function onRewardedVideoLoaded(currency, amount) {
+        console.log("<AM> New rewarded video is now available. After watching user should receive: " + amount + " " + currency);
+        document.getElementById("WatchVideoButton").style.display = 'block';
+        setMessageText(amount + " " + currency);
+    }
+
+    function onRewardedVideoShowed() {
+        console.log("<AM> User is now should be able to see rewarded video ad");
+    }
+
+    function setMessageText(text) {
+        document.getElementById("extra_message").innerHTML = text;
+    }
+
+</script>
