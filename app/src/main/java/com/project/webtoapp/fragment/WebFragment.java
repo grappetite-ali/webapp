@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
@@ -151,10 +152,15 @@ public class WebFragment extends Fragment implements AdvancedWebView.Listener, S
         appmediationJsInterface.registerInterface(browser);
         webClient = new WebToAppWebClient(this, browser) {
             @Override
-            public void onPageFinished(WebView view, String url) {
+            public void onPageFinished(final WebView view, String url) {
                 super.onPageFinished(view, url);
                 // Inject appmediation web interface into web view
-                appmediationJsInterface.init(getActivity(), view);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        appmediationJsInterface.init(getActivity(), view);
+                    }
+                });
             }
         };
         browser.setWebViewClient(webClient);
@@ -339,7 +345,7 @@ public class WebFragment extends Fragment implements AdvancedWebView.Listener, S
     }
 
     private static class AppmediationWebInterface implements RewardedVideoAdListener {
-        //        private RewardedVideoAd mRewardedVideoAd;
+        private RewardedVideoAd mRewardedVideoAd;
         private static final String INTERFACE_NAME = "AppmediationSDK";
         private WeakReference<Activity> activityRef;
         private WeakReference<WebView> webViewRef;
@@ -349,14 +355,15 @@ public class WebFragment extends Fragment implements AdvancedWebView.Listener, S
             this.webViewRef = new WeakReference<>(webView);
             registerInterface();
             injectJs("appmediationJsInterfaceInit();");
-//            mRewardedVideoAd.setRewardedVideoAdListener(this);
+            mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(activity);
+            mRewardedVideoAd.setRewardedVideoAdListener(this);
             loadRewardedVideoAd();
 
         }
 
         private void loadRewardedVideoAd() {
-//            mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
-//                    new AdRequest.Builder().build());
+            mRewardedVideoAd.loadAd(activityRef.get().getString(R.string.admob_reward_unit_id),
+                    new AdRequest.Builder().build());
         }
 
         private void registerInterface() {
@@ -372,24 +379,29 @@ public class WebFragment extends Fragment implements AdvancedWebView.Listener, S
         @JavascriptInterface
         public void rewardedVideoRequest() {
             if (activityRef == null) return;
-//            mRewardedVideoAd.show();
+            activityRef.get().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mRewardedVideoAd.show();
+                }
+            });
         }
 
         private void showRewardedVideo() {
-//            if (mRewardedVideoAd.isLoaded()) {
-//                mRewardedVideoAd.show();
-//            }
+            if (mRewardedVideoAd.isLoaded()) {
+                mRewardedVideoAd.show();
+            }
         }
 
         @JavascriptInterface
         public boolean isRewardedVideoAvailable() {
-            return true;
-//            return mRewardedVideoAd.isLoaded();
+            return mRewardedVideoAd.isLoaded();
         }
 
 
         @Override
         public void onRewardedVideoAdLoaded() {
+            Toast.makeText(activityRef.get(), "Video add loaded. Now you can play it", Toast.LENGTH_SHORT).show();
             injectJs("onRewardedVideoLoaded();");
 
         }
@@ -444,7 +456,5 @@ public class WebFragment extends Fragment implements AdvancedWebView.Listener, S
                     "})()");*/
             webView.loadUrl("javascript:" + javaScript);
         }
-
-
     }
 }

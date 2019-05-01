@@ -6,6 +6,7 @@ import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.onesignal.OSNotificationOpenResult;
@@ -15,14 +16,16 @@ import com.project.webtoapp.activity.MainActivity;
 import org.json.JSONObject;
 
 public class App extends MultiDexApplication {
-	
-	  public static GoogleAnalytics analytics;
-	  public static Tracker tracker;
 
-      private String push_url = null;
+    public static GoogleAnalytics analytics;
+    public static Tracker tracker;
 
-    @Override public void onCreate() {
+    private String push_url = null;
+
+    @Override
+    public void onCreate() {
         super.onCreate();
+        MobileAds.initialize(this, this.getString(R.string.admob_app_id));
 
         if (Config.ANALYTICS_ID.length() > 0) {
             analytics = GoogleAnalytics.getInstance(this);
@@ -74,13 +77,13 @@ public class App extends MultiDexApplication {
 
     }
 
-    public synchronized String getPushUrl(){
+    public synchronized String getPushUrl() {
         String url = push_url;
         push_url = null;
         return url;
     }
 
-    public synchronized void setPushUrl(String url){
+    public synchronized void setPushUrl(String url) {
         this.push_url = url;
     }
 } 

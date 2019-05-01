@@ -2,42 +2,54 @@
     <table style="margin-top:25%;">
         <thead>
         <tr>
-            <th colspan="4"><center><font color="#F20064" size="6"><b>Video Rewards</b></font>
+            <th colspan="4">
+                <center><font color="#F20064" size="6"><b>Video Rewards</b></font>
 
-                <b>
+                    <b>
 
-                </b></center></th>
+                    </b></center>
+            </th>
         </tr>
         </thead>
     </table>
     <table style="margin-top:3%;">
         <thead>
         <tr>
-            <th colspan="4"><center><font color="#F20064"><b>Earn 💎25 / Video Watch</b></font></center></th>
+            <th colspan="4">
+                <center><font color="#F20064"><b>Earn 💎25 / Video Watch</b></font></center>
+            </th>
         </tr>
         </thead>
     </table>
     <table>
         <tbody>
         <tr>
-            <td><center>
-                <p id="extra_message">Video Ad Available</p>
-                <a onclick="AppmediationSDK.rewardedVideoRequest()"><input id="WatchVideoButton" type="button" value="Watch Now"></a>
-            </center></td>
+            <td>
+                <center>
+                    <p id="extra_message">Video Ad Available</p>
+                    <a onclick="AppmediationSDK.rewardedVideoRequest()"><input id="WatchVideoButton"
+                                                                               type="button"
+                                                                               value="Watch Now"></a>
+                </center>
+            </td>
         </tr>
         <tr>
-            <td><center>
-                <h2>Live Earning  <font color="#F20064"><b>[mycred_my_balance] </b></font></h2>
-            </center></td>
+            <td>
+                <center>
+                    <h2>Live Earning <font color="#F20064"><b>[mycred_my_balance] </b></font></h2>
+                </center>
+            </td>
         </tr>
         <tr>
-            <td><center></center></td>
+            <td>
+                <center></center>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
 
-<script  type="text/javascript">
+<script type="text/javascript">
     function checkIfVideoIsAvailable() {
         console.log("<AM> isRewardedVideoAvailable = " + AppmediationSDK.isRewardedVideoAvailable());
     }
@@ -81,4 +93,5 @@
     function setMessageText(text) {
         document.getElementById("extra_message").innerHTML = text;
     }
+
 </script>

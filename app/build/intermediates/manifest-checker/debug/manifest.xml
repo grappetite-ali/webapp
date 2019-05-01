@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sherdle.webtoapp"
+    package="com.sherdle.webtoapp.wisecrab"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -20,10 +20,10 @@
 
     <!-- Create a unique permission for your app and use it so only your app can receive your OneSignal messages. -->
     <permission
-        android:name="com.sherdle.webtoapp.permission.C2D_MESSAGE"
+        android:name="com.sherdle.webtoapp.wisecrab.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.sherdle.webtoapp.permission.C2D_MESSAGE" /> <!-- START: ShortcutBadger -->
+    <uses-permission android:name="com.sherdle.webtoapp.wisecrab.permission.C2D_MESSAGE" /> <!-- START: ShortcutBadger -->
     <!-- Samsung -->
     <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
     <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" /> <!-- HTC -->
@@ -58,6 +58,9 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_app_id" />
 
         <activity
             android:name="com.project.webtoapp.activity.MainActivity"
@@ -130,7 +133,7 @@
             <intent-filter android:priority="999" >
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
-                <category android:name="com.sherdle.webtoapp" />
+                <category android:name="com.sherdle.webtoapp.wisecrab" />
             </intent-filter>
         </receiver>
         <receiver android:name="com.onesignal.NotificationOpenedReceiver" />
@@ -221,12 +224,12 @@
 
         <provider
             android:name="com.google.firebase.provider.FirebaseInitProvider"
-            android:authorities="com.sherdle.webtoapp.firebaseinitprovider"
+            android:authorities="com.sherdle.webtoapp.wisecrab.firebaseinitprovider"
             android:exported="false"
             android:initOrder="100" />
         <provider
             android:name="com.android.tools.ir.server.InstantRunContentProvider"
-            android:authorities="com.sherdle.webtoapp.com.android.tools.ir.server.InstantRunContentProvider"
+            android:authorities="com.sherdle.webtoapp.wisecrab.com.android.tools.ir.server.InstantRunContentProvider"
             android:multiprocess="true" />
     </application>
 

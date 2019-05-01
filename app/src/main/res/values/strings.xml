@@ -8,6 +8,10 @@
 
     <string name="onesignal_app_id"></string>
 
+    <!--for reward video-->
+    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_reward_unit_id">ca-app-pub-3940256099942544/5224354917</string>
+
     <!-- Translate Strings below -->
     <string name="previous">Previous</string>
     <string name="next">Next</string>

@@ -1,4 +1,4 @@
-com.sherdle.webtoapp
+com.sherdle.webtoapp.wisecrab
 anim abc_fade_in
 anim abc_fade_out
 anim abc_grow_fade_in_from_bottom
@@ -1406,6 +1406,8 @@ string abc_toolbar_collapse_description
 string about
 string ad_banner_id
 string ad_interstitial_id
+string admob_app_id
+string admob_reward_unit_id
 string app_name
 string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
