@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements MenuItemCallback{
     @Override
     protected void onPause() {
         super.onPause();
-        myPlay.release();
+        myPlay.pause();
     }
 
 
@@ -357,6 +357,14 @@ public class MainActivity extends AppCompatActivity implements MenuItemCallback{
     @Override
     protected void onResume() {
         super.onResume();
+        myPlay.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        myPlay.stop();
+        myPlay.release();
     }
 
     /**
