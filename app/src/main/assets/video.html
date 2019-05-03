@@ -27,9 +27,10 @@
             <td>
                 <center>
                     <p id="extra_message">Video Ad Available</p>
-                    <a onclick="AppmediationSDK.rewardedVideoRequest()"><input id="WatchVideoButton"
-                                                                               type="button"
-                                                                               value="Watch Now"></a>
+                    <a onclick="AppmediationSDK.playAudio('btn3'); AppmediationSDK.rewardedVideoRequest();"><input
+                            id="WatchVideoButton"
+                            type="button"
+                            value="Watch Now"></a>
                 </center>
             </td>
         </tr>
@@ -42,7 +43,16 @@
         </tr>
         <tr>
             <td>
-                <center></center>
+                <center>
+                    <button onclick="AppmediationSDK.playAudio('btn1')">Button One</button>
+                </center>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <center>
+                    <button onclick="AppmediationSDK.playAudio('btn2')">Button Two</button>
+                </center>
             </td>
         </tr>
         </tbody>
@@ -93,5 +103,7 @@
     function setMessageText(text) {
         document.getElementById("extra_message").innerHTML = text;
     }
+
+
 
 </script>

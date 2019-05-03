@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -349,6 +350,7 @@ public class WebFragment extends Fragment implements AdvancedWebView.Listener, S
         private static final String INTERFACE_NAME = "AppmediationSDK";
         private WeakReference<Activity> activityRef;
         private WeakReference<WebView> webViewRef;
+        private MediaPlayer btnClickPlayer;
 
         public void init(Activity activity, WebView webView) {
             this.activityRef = new WeakReference<>(activity);
@@ -385,6 +387,28 @@ public class WebFragment extends Fragment implements AdvancedWebView.Listener, S
                     mRewardedVideoAd.show();
                 }
             });
+        }
+
+        @JavascriptInterface
+        public void playAudio(String type) {
+            if (btnClickPlayer != null)
+                btnClickPlayer.stop();
+            switch (type) {
+                case "btn1": {
+                    btnClickPlayer = MediaPlayer.create(activityRef.get(), R.raw.poker);
+                    btnClickPlayer.start();
+                }
+                break;
+                case "btn2": {
+                    btnClickPlayer = MediaPlayer.create(activityRef.get(), R.raw.bell);
+                    btnClickPlayer.start();
+                }
+                case "btn3": {
+                    btnClickPlayer = MediaPlayer.create(activityRef.get(), R.raw.van);
+                    btnClickPlayer.start();
+                }
+                break;
+            }
         }
 
         private void showRewardedVideo() {
