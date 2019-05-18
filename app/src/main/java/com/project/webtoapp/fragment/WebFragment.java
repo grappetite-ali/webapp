@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -42,7 +43,9 @@ import com.project.webtoapp.activity.MainActivity;
 import com.project.webtoapp.widget.AdvancedWebView;
 import com.project.webtoapp.widget.scrollable.ToolbarWebViewScrollListener;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 public class WebFragment extends Fragment implements AdvancedWebView.Listener, SwipeRefreshLayout.OnRefreshListener {
@@ -350,7 +353,7 @@ public class WebFragment extends Fragment implements AdvancedWebView.Listener, S
         private static final String INTERFACE_NAME = "AppmediationSDK";
         private WeakReference<Activity> activityRef;
         private WeakReference<WebView> webViewRef;
-        private MediaPlayer btnClickPlayer;
+        private HashMap<String, MediaPlayer> mediaPlayerMap = new HashMap<>();
 
         public void init(Activity activity, WebView webView) {
             this.activityRef = new WeakReference<>(activity);
@@ -390,26 +393,44 @@ public class WebFragment extends Fragment implements AdvancedWebView.Listener, S
         }
 
         @JavascriptInterface
-        public void playAudio(String type) {
-            if (btnClickPlayer != null)
-                btnClickPlayer.stop();
+        public void playAudio(String type) throws IOException {
+            MediaPlayer mp = mediaPlayerMap.get(type);
+            if (mp != null && mp.isPlaying()) {
+                mp.stop();
+                mp.prepare();
+            } else if (mp == null) {
+                mp = getMediaPlayer(type);
+                if (mp == null)
+                    return;
+                mediaPlayerMap.put(type, mp);
+            }
+            final MediaPlayer finalMp = mp;
+            webViewRef.get().post(new Runnable() {
+                @Override
+                public void run() {
+                    finalMp.start();
+                }
+            });
+
+        }
+
+        @Nullable
+        private MediaPlayer getMediaPlayer(String type) {
             switch (type) {
                 case "btn1": {
-                    btnClickPlayer = MediaPlayer.create(activityRef.get(), R.raw.poker);
-                    btnClickPlayer.start();
+                    return MediaPlayer.create(activityRef.get(), R.raw.poker);
                 }
-                break;
                 case "btn2": {
-                    btnClickPlayer = MediaPlayer.create(activityRef.get(), R.raw.bell);
-                    btnClickPlayer.start();
+                    return MediaPlayer.create(activityRef.get(), R.raw.bell);
                 }
                 case "btn3": {
-                    btnClickPlayer = MediaPlayer.create(activityRef.get(), R.raw.van);
-                    btnClickPlayer.start();
+                    return MediaPlayer.create(activityRef.get(), R.raw.van);
                 }
-                break;
+                default:
+                    return null;
             }
         }
+
 
         private void showRewardedVideo() {
             if (mRewardedVideoAd.isLoaded()) {
